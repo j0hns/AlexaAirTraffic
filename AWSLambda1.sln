@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27703.2026
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AWSLambda1", "AWSLambda1\AWSLambda1.csproj", "{B59E9BC7-8D98-4B45-BF56-1F231E721467}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AWSLambda1.Tests", "AWSLambda1.Tests\AWSLambda1.Tests.csproj", "{290CA074-9BAC-4491-8320-118514D5FBC9}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B59E9BC7-8D98-4B45-BF56-1F231E721467}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B59E9BC7-8D98-4B45-BF56-1F231E721467}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B59E9BC7-8D98-4B45-BF56-1F231E721467}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B59E9BC7-8D98-4B45-BF56-1F231E721467}.Release|Any CPU.Build.0 = Release|Any CPU
+		{290CA074-9BAC-4491-8320-118514D5FBC9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{290CA074-9BAC-4491-8320-118514D5FBC9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{290CA074-9BAC-4491-8320-118514D5FBC9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{290CA074-9BAC-4491-8320-118514D5FBC9}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {6014BD76-68ED-4B6B-A8DF-90AB49C58460}
+	EndGlobalSection
+EndGlobal
