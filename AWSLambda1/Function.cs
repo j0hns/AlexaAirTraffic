@@ -68,10 +68,11 @@ namespace AWSLambda1
             // build the speech response 
             var speech = new Alexa.NET.Response.SsmlOutputSpeech
             {
-                Ssml = "<speak>This is Air Traffic. Go ahead with your request.</speak>"
+                Ssml = "<speak>This is Air Traffic. Go ahead with your request, or ask for help</speak>"
             };
             // create the response using the ResponseBuilder
             var finalResponse = ResponseBuilder.Tell(speech);
+            finalResponse.Response.ShouldEndSession = false;
             return finalResponse;
 
         }
@@ -99,14 +100,14 @@ namespace AWSLambda1
             if (intentRequest.Intent.Name.Equals("AMAZON.HelpIntent"))
             {
                 
-                speech.Ssml = "<speak>I will tell you what aircraft are flying nearby. You can ask what is nearby, or what is my location.</speak>";
+                speech.Ssml = "<speak>I can tell you about aircraft flying near your position or over a specific place. You can ask questions like what is nearby? how many flights are within 20 miles? and, what is south of me? You can also set your specific location for more accurate results.</speak>";
             }
 
             if (intentRequest.Intent.Name.Equals("AIRTRAFFICnearbyAircraft"))
             {
                 // get the slots
                 var firstValue = intentRequest.Intent.Slots?["flight"]?.Value;
-                speech.Ssml = "<speak>I have no chuffing idea.</speak>";
+                speech.Ssml = "<speak>I currently have no chuffing idea what aircraft are nearby as I am not finished yet.</speak>";
             }
 
 
