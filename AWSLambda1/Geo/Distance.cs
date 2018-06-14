@@ -8,6 +8,7 @@ namespace AWSLambda1.Geo
     {
         public const double MileToKm = 1.609344;
         public const double NauticalMileToKm = 1.852;
+        public const double FeetToKm = 0.0003048;
 
         public static readonly Distance Zero = new Distance(0);
 
@@ -26,9 +27,19 @@ namespace AWSLambda1.Geo
             return new Distance(NauticalMilesToKilometres(nauticalMiles));
         }
 
+        public static Distance FromFeet(double feet)
+        {
+            return new Distance(FeetToKilometres(feet));
+        }
+
         public static double NauticalMilesToKilometres(double nauticalMiles)
         {
             return nauticalMiles * NauticalMileToKm;
+        }
+
+        public static double FeetToKilometres(double feet)
+        {
+            return feet * FeetToKm;
         }
 
         public static double KilometresToNauticalMiles(double kilometres)
@@ -159,5 +170,7 @@ namespace AWSLambda1.Geo
         {
             this.Kilometres += distance.Kilometres;
         }
+
+        
     }
 }

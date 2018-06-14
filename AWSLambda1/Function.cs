@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection.Metadata.Ecma335;
@@ -24,6 +25,8 @@ namespace AWSLambda1
 
         //https://data-live.flightradar24.com/zones/fcgi/feed.js?bounds=52.19,51.84,0.72,1.65&faa=1&mlat=1&flarm=1&adsb=1&gnd=1&air=1&vehicles=1&estimated=1&maxage=14400&gliders=1&stats=1&selected=119f9a3c&ems=1
 
+
+            //static void LoadAirportCodes
 
 
         /// <summary>
@@ -153,7 +156,7 @@ namespace AWSLambda1
             intentRequest.Intent.Slots?.TryGetValue("distanceUnits", out distanceUnitsSlot);
 
             double distanceValue = distanceSlot != null ? Convert.ToDouble(distanceSlot.Value) : 20;
-            string distanceUnitsValue = distanceUnitsSlot != null ? distanceUnitsSlot.Value : "Kilometres";
+            string distanceUnitsValue = distanceUnitsSlot != null ? distanceUnitsSlot.Value : "kilometres";
 
             var distance = Distance.FromKilometres(distanceValue);
 
@@ -185,13 +188,14 @@ namespace AWSLambda1
             }
 
             var closest = withinRangeOrderedByClosest.First();
-            var bearing = GeoLocation.RhumbBearing(location, closest.sighting.Location);
+            var bearing = GeoLocation.RhumbBearing(location, closest.sighting.Location).Degrees;
 
             var id = AddIndefiniteArticle(closest.sighting.AircraftType) + (closest.sighting.FlightNumber != null
-                ? $" flight {closest.sighting.FlightNumber}"
+                ? $", flight {closest.sighting.FlightNumber}"
                 : "");
-            var destination = closest.sighting.Arrving != null ? $" to {closest.sighting.Arrving}" : "";
-            speech.Ssml = $"<speak>There are {withinRangeOrderedByClosest.Length} within {distanceValue:N0} {distanceUnitsValue}. The closest is {id} {destination}, range {closest.d.Miles:N0} miles, bearing {bearing:N0}, at altitude {closest.sighting.AltitudeFt:N0} feet and {closest.sighting.GroundSpeedKts} knots</speak>";
+            var destination = closest.sighting.Arrving != null ? $"to {closest.sighting.Arrving}" : "";
+            var callsign = closest.sighting.CallSign!=null? $"{closest.sighting.CallSign}":"";
+            speech.Ssml = $"<speak>There {GetIsOrAre(withinRangeOrderedByClosest.Length)} {withinRangeOrderedByClosest.Length} aircraft within {distanceValue:N0} {distanceUnitsValue}. The closest is {callsign} {destination}, range {closest.d.Kilometres:N0} kilometres, bearing {bearing:N0}, travelling at {closest.sighting.GroundSpeedKts} knots and altitude {Distance.FromFeet(closest.sighting.AltitudeFt).Metres:N0} metres.</speak>";
             return speech;
 
 
@@ -202,12 +206,21 @@ namespace AWSLambda1
             return "aeiouAEIOU".IndexOf(c) >= 0;
         }
 
+        private string GetIsOrAre(int itemsCount)
+        {
+            if (itemsCount> 1)
+            {
+                return "are";
+            }
+
+            return "is";
+        }
         private string AddIndefiniteArticle(string value)
         {
             if (string.IsNullOrEmpty(value))
                 return value;
                 
-            return IsVowel(value[0]) ? "an {value}" : "a {value}";
+            return IsVowel(value[0]) ? $"an {value}" : $"a {value}";
         }
 
     }
